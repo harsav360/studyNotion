@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
-const SignupForm = () => {
+const SignupForm = ({ setIsLoggedIn }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -18,6 +21,21 @@ const SignupForm = () => {
       [event.target.name]: event.target.value,
     }));
   }
+
+  function submitHandler(event) {
+    event.preventDefault();
+    if (formData.password != formData.confirmPassword) {
+      toast.error("Password do not match");
+      return;
+    }
+    setIsLoggedIn(true);
+    toast.success("Account Created");
+    const accountData = {
+      ...formData,
+    };
+    console.log(accountData);
+    navigate("/dashboard");
+  }
   return (
     <div>
       {/* {Student Instructor Tab} */}
@@ -25,7 +43,7 @@ const SignupForm = () => {
         <button>Student</button>
         <button>Instructor</button>
       </div>
-      <form>
+      <form onSubmit={submitHandler}>
         {/* {First Name and Last Name} */}
         <div>
           <label>
@@ -35,7 +53,7 @@ const SignupForm = () => {
             <input
               required
               type="text"
-              name="firstname"
+              name="firstName"
               onChange={changeHandler}
               placeholder="Enter First Name"
               value={formData.firstName}
@@ -49,7 +67,7 @@ const SignupForm = () => {
             <input
               required
               type="text"
-              name="lastname"
+              name="lastName"
               onChange={changeHandler}
               placeholder="Enter last Name"
               value={formData.lastNameName}

@@ -51,7 +51,7 @@ const Navbar = (props) => {
           </Link>
         )}
 
-        {!isLoggedIn && (
+        {isLoggedIn && (
           <Link to="/dashboard">
             <button>Dashboard</button>
           </Link>
